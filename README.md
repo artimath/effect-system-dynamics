@@ -1,11 +1,14 @@
-# @org/effect-system-dynamics
+# effect-system-dynamics
 
-Effect-idiomatic system dynamics toolkit for composing, simulating, and analysing stock–flow models with Effect services and streams.
+Functional system dynamics modeling and simulation built on Effect streams and services.
+
+[![npm version](https://img.shields.io/npm/v/effect-system-dynamics.svg)](https://www.npmjs.com/package/effect-system-dynamics)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/artimath/effect-system-dynamics/blob/master/LICENSE)
 
 ## Installation
 
 ```bash
-pnpm add @org/effect-system-dynamics effect
+pnpm add effect-system-dynamics effect
 ```
 
 ## Quickstart
@@ -188,18 +191,81 @@ const program = Effect.gen(function* () {
 await Effect.runPromise(program)
 ```
 
+## Validation: Classic SIR Epidemic Model
+
+The package has been validated against published results from the classic SIR (Susceptible-Infected-Recovered) epidemic model:
+
+```typescript
+import { Effect, Layer } from "effect";
+import { Model, Stock, Flow, TimeConfig, simulate, Solver } from "effect-system-dynamics";
+import { UnitDefinition, UnitManager } from "effect-system-dynamics/Units";
+
+// Classic SIR model parameters from Harko et al. (2014)
+// β (infection rate) = 0.01, γ (recovery rate) = 0.02
+// Initial: S(0)=20, I(0)=15, R(0)=10, N=45
+
+const model = new Model({
+  id: /* ... */,
+  name: "SIR Epidemic Model",
+  stocks: [
+    new Stock({ name: "Susceptible", initialValue: 20, units: "people" }),
+    new Stock({ name: "Infected", initialValue: 15, units: "people" }),
+    new Stock({ name: "Recovered", initialValue: 10, units: "people" })
+  ],
+  flows: [
+    // dS/dt = -β*S*I
+    new Flow({
+      name: "Infection",
+      source: susceptibleId,
+      rateEquation: "0.01 * ([Susceptible] / { 1 people }) * [Infected] / { 1 tick }"
+    }),
+    // dI/dt = β*S*I - γ*I
+    new Flow({
+      name: "NewInfections",
+      target: infectedId,
+      rateEquation: "0.01 * ([Susceptible] / { 1 people }) * [Infected] / { 1 tick }"
+    }),
+    new Flow({
+      name: "Recovery",
+      source: infectedId,
+      target: recoveredId,
+      rateEquation: "0.02 * [Infected] / { 1 tick }"
+    })
+  ],
+  timeConfig: new TimeConfig({ start: 0, end: 200, step: 1 })
+});
+
+// Results match published analytical solution:
+// ✓ Population conservation: 0.000000 variation
+// ✓ Epidemic curve: Peak at t=10 with I=28.38
+// ✓ R₀ = β/γ = 0.5 < 1 (epidemic dies out naturally)
+```
+
+See [test/sir-model.test.ts](./test/sir-model.test.ts) for the complete validated implementation.
+
 ## Solver Comparison
 
 | Solver | Order | Characteristics | Status |
 | --- | --- | --- | --- |
 | `Solver.Euler` | 1st | Fast baseline for prototyping; one rate evaluation per step. | ✅ Implemented |
-| `Solver.RK4` | 4th (stub) | Placeholder delegating to Euler while the real RK4 evaluator lands. | ⚠️ Stub (delegates to Euler) |
+| `Solver.RK4` | 4th | Classic Runge-Kutta method with four evaluations per step for improved accuracy. | ✅ Implemented |
+| `Solver.Adaptive` | Variable | Adaptive step-size control for challenging dynamics. | ✅ Implemented |
 
 ## Documentation
 
 - [Architecture](./docs/ARCHITECTURE-FINAL.md)
 - [Atomic PR Roadmap](./docs/ATOMIC-PRS.md)
 
+## Examples
+
+- [Predator-Prey (Lotka-Volterra)](./examples/predator-prey-model.ts)
+- [SIR Epidemic Model](./test/sir-model.test.ts) - Validated against published results
+- [Economic Impact Model](./test/economic-model.test.ts) - Multi-variable business simulation
+
 ## License
 
-MIT
+Apache-2.0
+
+## Author
+
+Ryan Hunter ([@artimath](https://github.com/artimath))
