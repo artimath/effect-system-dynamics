@@ -1,0 +1,102 @@
+{
+  "name": "effect-system-dynamics",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "Functional system dynamics modeling and simulation built on Effect streams and services",
+  "author": "Ryan Hunter <ryan@ryanhunter.io>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artimath/effect-system-dynamics.git"
+  },
+  "homepage": "https://github.com/artimath/effect-system-dynamics#readme",
+  "bugs": {
+    "url": "https://github.com/artimath/effect-system-dynamics/issues"
+  },
+  "keywords": [
+    "effect",
+    "system-dynamics",
+    "simulation",
+    "numerical",
+    "stream",
+    "modeling",
+    "differential-equations"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "main": "./build/esm/index.js",
+  "types": "./build/dts/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./build/esm/index.js",
+      "types": "./build/dts/index.d.ts"
+    },
+    "./Draft": {
+      "import": "./build/esm/Draft.js",
+      "types": "./build/dts/Draft.d.ts"
+    },
+    "./Equations": {
+      "import": "./build/esm/Equations.js",
+      "types": "./build/dts/Equations.d.ts"
+    },
+    "./Errors": {
+      "import": "./build/esm/Errors.js",
+      "types": "./build/dts/Errors.d.ts"
+    },
+    "./Model": {
+      "import": "./build/esm/Model.js",
+      "types": "./build/dts/Model.d.ts"
+    },
+    "./Scenarios": {
+      "import": "./build/esm/Scenarios.js",
+      "types": "./build/dts/Scenarios.d.ts"
+    },
+    "./Simulation": {
+      "import": "./build/esm/Simulation.js",
+      "types": "./build/dts/Simulation.d.ts"
+    },
+    "./Solver": {
+      "import": "./build/esm/Solver.js",
+      "types": "./build/dts/Solver.d.ts"
+    },
+    "./Types": {
+      "import": "./build/esm/Types.js",
+      "types": "./build/dts/Types.d.ts"
+    },
+    "./Units": {
+      "import": "./build/esm/Units.js",
+      "types": "./build/dts/Units.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "build/dts",
+    "build/esm",
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "check": "tsc -b tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "clean": "rm -rf build .tsbuildinfo",
+    "prepublishOnly": "pnpm clean && pnpm build"
+  },
+  "dependencies": {
+    "chevrotain": "^11.0.3"
+  },
+  "peerDependencies": {
+    "effect": "^3.18.0"
+  },
+  "devDependencies": {
+    "@effect/vitest": "^0.26.0",
+    "@types/node": "^22.0.0",
+    "effect": "^3.18.1",
+    "typescript": "^5.6.0",
+    "vitest": "^3.2.0"
+  }
+}

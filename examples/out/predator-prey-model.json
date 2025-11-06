@@ -1,0 +1,74 @@
+{
+  "id": "04000000-0000-4000-8000-000000000001",
+  "name": "Lotka-Volterra Predator-Prey",
+  "stocks": [
+    {
+      "id": "02000000-0000-4000-8000-000000000001",
+      "name": "Prey",
+      "initialValue": 40
+    },
+    {
+      "id": "02000000-0000-4000-8000-000000000002",
+      "name": "Predators",
+      "initialValue": 9
+    }
+  ],
+  "flows": [
+    {
+      "id": "03000000-0000-4000-8000-000000000001",
+      "name": "PreyBirth",
+      "target": "02000000-0000-4000-8000-000000000001",
+      "rateEquation": "[Prey] * [PreyBirthRate] / { 1 tick }"
+    },
+    {
+      "id": "03000000-0000-4000-8000-000000000002",
+      "name": "Predation",
+      "source": "02000000-0000-4000-8000-000000000001",
+      "rateEquation": "[Prey] * [PredationRate] * [Predators] / { 1 tick }"
+    },
+    {
+      "id": "03000000-0000-4000-8000-000000000003",
+      "name": "PredatorGrowth",
+      "target": "02000000-0000-4000-8000-000000000002",
+      "rateEquation": "[Prey] * [PredationRate] * [Predators] * [PredatorEfficiency] / { 1 tick }"
+    },
+    {
+      "id": "03000000-0000-4000-8000-000000000004",
+      "name": "PredatorDeath",
+      "source": "02000000-0000-4000-8000-000000000002",
+      "rateEquation": "[Predators] * [PredatorDeathRate] / { 1 tick }"
+    }
+  ],
+  "variables": [
+    {
+      "id": "01000000-0000-4000-8000-000000000001",
+      "name": "PreyBirthRate",
+      "equation": "0.1",
+      "type": "auxiliary"
+    },
+    {
+      "id": "01000000-0000-4000-8000-000000000002",
+      "name": "PredationRate",
+      "equation": "0.01",
+      "type": "auxiliary"
+    },
+    {
+      "id": "01000000-0000-4000-8000-000000000003",
+      "name": "PredatorEfficiency",
+      "equation": "0.01",
+      "type": "auxiliary"
+    },
+    {
+      "id": "01000000-0000-4000-8000-000000000004",
+      "name": "PredatorDeathRate",
+      "equation": "0.1",
+      "type": "constant",
+      "value": 0.1
+    }
+  ],
+  "timeConfig": {
+    "start": 0,
+    "end": 50,
+    "step": 0.25
+  }
+}

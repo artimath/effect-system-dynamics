@@ -1,0 +1,260 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Equation DSL v2 parser golden suite > parses { name: 'conditional chain', source: 'IF [Population] > 0 THEN 1 ELSEIF [Population] < 0 THEN -1 ELSE 0 END IF' } 1`] = `
+{
+  "defs": [],
+  "expr": {
+    "_tag": "Binary",
+    "left": {
+      "_tag": "Binary",
+      "left": {
+        "_tag": "QuantityLiteral",
+        "unit": undefined,
+        "value": 10,
+      },
+      "op": "+",
+      "right": {
+        "_tag": "Binary",
+        "left": {
+          "_tag": "QuantityLiteral",
+          "unit": undefined,
+          "value": 5,
+        },
+        "op": "*",
+        "right": {
+          "_tag": "QuantityLiteral",
+          "unit": undefined,
+          "value": 3,
+        },
+      },
+    },
+    "op": "-",
+    "right": {
+      "_tag": "QuantityLiteral",
+      "unit": undefined,
+      "value": 2,
+    },
+  },
+}
+`;
+
+exports[`Equation DSL v2 parser golden suite > parses { name: 'conditional chain', source: 'IF [Population] > 0 THEN 1 ELSEIF [Population] < 0 THEN -1 ELSE 0 END IF' } 2`] = `
+{
+  "defs": [],
+  "expr": {
+    "_tag": "QuantityLiteral",
+    "unit": {
+      "m": 1,
+      "s": -2,
+    },
+    "value": 9.81,
+  },
+}
+`;
+
+exports[`Equation DSL v2 parser golden suite > parses { name: 'conditional chain', source: 'IF [Population] > 0 THEN 1 ELSEIF [Population] < 0 THEN -1 ELSE 0 END IF' } 3`] = `
+{
+  "defs": [],
+  "expr": {
+    "_tag": "Ref",
+    "name": "Net Stock Inflow",
+  },
+}
+`;
+
+exports[`Equation DSL v2 parser golden suite > parses { name: 'conditional chain', source: 'IF [Population] > 0 THEN 1 ELSEIF [Population] < 0 THEN -1 ELSE 0 END IF' } 4`] = `
+{
+  "defs": [],
+  "expr": {
+    "_tag": "Unary",
+    "expr": {
+      "_tag": "Binary",
+      "left": {
+        "_tag": "BooleanLiteral",
+        "value": true,
+      },
+      "op": "AND",
+      "right": {
+        "_tag": "BooleanLiteral",
+        "value": false,
+      },
+    },
+    "op": "Not",
+  },
+}
+`;
+
+exports[`Equation DSL v2 parser golden suite > parses { name: 'conditional chain', source: 'IF [Population] > 0 THEN 1 ELSEIF [Population] < 0 THEN -1 ELSE 0 END IF' } 5`] = `
+{
+  "defs": [],
+  "expr": {
+    "_tag": "IfChain",
+    "branches": [
+      {
+        "cond": {
+          "_tag": "Binary",
+          "left": {
+            "_tag": "Ref",
+            "name": "Population",
+          },
+          "op": ">",
+          "right": {
+            "_tag": "QuantityLiteral",
+            "unit": undefined,
+            "value": 0,
+          },
+        },
+        "then": {
+          "_tag": "QuantityLiteral",
+          "unit": undefined,
+          "value": 1,
+        },
+      },
+      {
+        "cond": {
+          "_tag": "Binary",
+          "left": {
+            "_tag": "Ref",
+            "name": "Population",
+          },
+          "op": "<",
+          "right": {
+            "_tag": "QuantityLiteral",
+            "unit": undefined,
+            "value": 0,
+          },
+        },
+        "then": {
+          "_tag": "Unary",
+          "expr": {
+            "_tag": "QuantityLiteral",
+            "unit": undefined,
+            "value": 1,
+          },
+          "op": "Neg",
+        },
+      },
+    ],
+    "elseBranch": {
+      "_tag": "QuantityLiteral",
+      "unit": undefined,
+      "value": 0,
+    },
+  },
+}
+`;
+
+exports[`Equation DSL v2 parser golden suite > round-trips { name: 'arithmetic precedence', source: '10 + 5 * 3 - 2' } 1`] = `
+{
+  "defs": [],
+  "expr": {
+    "_tag": "Lookup1D",
+    "points": [
+      {
+        "x": 0,
+        "y": 0,
+      },
+      {
+        "x": 10,
+        "y": 100,
+      },
+      {
+        "x": 20,
+        "y": 400,
+      },
+    ],
+    "x": {
+      "_tag": "Time",
+      "kind": "TIME",
+    },
+    "xUnit": undefined,
+    "yUnit": undefined,
+  },
+}
+`;
+
+exports[`Equation DSL v2 parser golden suite > round-trips { name: 'arithmetic precedence', source: '10 + 5 * 3 - 2' } 2`] = `
+{
+  "defs": [],
+  "expr": {
+    "_tag": "Delay",
+    "init": {
+      "_tag": "Ref",
+      "name": "Initial",
+    },
+    "input": {
+      "_tag": "Ref",
+      "name": "Inflow",
+    },
+    "kind": "DELAY3",
+    "tau": {
+      "_tag": "QuantityLiteral",
+      "unit": {
+        "day": 1,
+      },
+      "value": 5,
+    },
+  },
+}
+`;
+
+exports[`Equation DSL v2 parser golden suite > round-trips { name: 'arithmetic precedence', source: '10 + 5 * 3 - 2' } 3`] = `
+{
+  "defs": [],
+  "expr": {
+    "_tag": "Binary",
+    "left": {
+      "_tag": "Binary",
+      "left": {
+        "_tag": "Time",
+        "kind": "TIME_STEP",
+      },
+      "op": "+",
+      "right": {
+        "_tag": "Time",
+        "kind": "INITIAL_TIME",
+      },
+    },
+    "op": "+",
+    "right": {
+      "_tag": "Time",
+      "kind": "FINAL_TIME",
+    },
+  },
+}
+`;
+
+exports[`Equation DSL v2 parser golden suite > round-trips { name: 'arithmetic precedence', source: '10 + 5 * 3 - 2' } 4`] = `
+{
+  "defs": [
+    {
+      "body": {
+        "_tag": "Binary",
+        "left": {
+          "_tag": "Ref",
+          "name": "x",
+        },
+        "op": "*",
+        "right": {
+          "_tag": "Ref",
+          "name": "Rate",
+        },
+      },
+      "name": "Gain",
+      "params": [
+        "x",
+      ],
+    },
+  ],
+  "expr": {
+    "_tag": "Call",
+    "args": [
+      {
+        "_tag": "Ref",
+        "name": "Stocks",
+      },
+    ],
+    "name": "Gain",
+  },
+}
+`;
